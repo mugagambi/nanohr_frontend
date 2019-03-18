@@ -1,0 +1,40 @@
+@import '~bootstrap/scss/bootstrap';
+tr:nth-child(even) {background-color: #f2f2f2;}
+.modal-header
+ {
+     padding:9px 15px;
+     border-bottom:1px solid #eee;
+     background-color: #eee;
+ }
+ .modal-header .close{margin-top:2px}
+ .modal-header h3{margin:0;line-height:30px}
+ .modal-footer
+ {
+     background-color: #eee;
+ }
+ .border-light
+ {
+    padding:9px 15px;
+ }
+ img {
+    width:30px; /* you can use % */
+    height: auto;
+}
+img:hover {
+    transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  }
+.list-group-item:hover{
+
+   transform: scale(1.03); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  }
+.card:hover{
+    box-shadow: 5px 5px 5px lightgray; 
+}
+tr:hover{
+    transform: scale(1.01);
+
+}
+body {
+    background-image: url("back.png");
+    background-color: #cccccc;
+   }
