@@ -7,7 +7,7 @@
             </ol>
           </nav>
   
-  <table class="table table-hover table-responsive">
+  <table class="table table-hover table-responsive-sm table-responsive-md">
     <thead class="thead-dark">
       <tr>
         <th >username</th>

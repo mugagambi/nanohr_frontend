@@ -20,6 +20,20 @@ tr:nth-child(even) {background-color: #f2f2f2;}
     width:30px; /* you can use % */
     height: auto;
 }
+
+.col-sm{
+    align-content: center;
+}
+
+img.icon-nav{
+        width:50px; /* you can use % */
+        height: auto;
+    }
+img.dash{
+        width:25px; /* you can use % */
+        height: auto;
+}
+
 img:hover {
     transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
   }
@@ -34,7 +48,14 @@ tr:hover{
     transform: scale(1.01);
 
 }
-body {
-    background-image: url("back.png");
-    background-color: #cccccc;
-   }
+.navbar{
+    background-color:#029111;
+}
+.thead{
+    background-color:#029111;
+}
+.list-group-item-action{
+    font-weight: 900;
+    color: #428bca
+}
+
