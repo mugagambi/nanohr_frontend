@@ -3,8 +3,9 @@
             <div style="padding:10px 0px" class="container">
                     <!-- Stack the columns on mobile by making one full-width and the other half-width -->
                     <div class="row">
-                      <div  style="padding:25px 50px " class="col-12 col-sm-10 col-md-8 col-lg-4" >
-                          <div class="list-group">
+                    
+                      <div  style="padding:25px 50px " class="col-12 col-sm-10 col-md-8 col-lg-4 " >
+                          <div class="list-group ">
                               
                               <a href="#" class="list-group-item list-group-item-action disabled bg-dark text-light" ><strong>menu</strong></a>
                               <router-link :to="{ name: 'today' }"><a href="#" class="list-group-item list-group-item-action "> today</a></router-link>
@@ -14,9 +15,9 @@
 
                       </div>
                       <div class="col-12 col-sm-10 col-md-8 col-lg-8 " style="padding:25px 0px 0px 5px">
-                          <router-view class="border border-light">
+                          <router-view class="border border-light shadow-sm p-3 mb-5 bg-white rounded">
                           <div id="list-content">
-                           
+                        
                           </div>
                           </router-view>
                       </div>

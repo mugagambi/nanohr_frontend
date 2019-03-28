@@ -13,7 +13,7 @@
 
                       </div>
                       <div class="col-12 col-sm-10 col-md-8 col-lg-8 " style="padding:25px 0px 0px 5px">
-                          <router-view class="border border-light">
+                          <router-view class="border border-light shadow-sm p-3 mb-5 bg-white rounded">
                           <div id="list-content">
                            
                           </div>

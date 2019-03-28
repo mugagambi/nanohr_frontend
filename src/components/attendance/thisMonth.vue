@@ -7,33 +7,62 @@
                 <li class="breadcrumb-item active" aria-current="page">this month</li>
         </ol>
 </nav>
-{{info}}
-<div class="accordion" id="accordionExample" >
-        <div class="card" v-for ="data in info.response">
-          <div class="card-header" id="headingOne">
-            <h5 class="mb-0">
-              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" v-for="data in data">
-                {{data.date}}
-              </button>
-            </h5>
-          </div>
-      
-          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <div class="card-body">
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-            </div>
-          </div>
-        </div>
+
+<div class="row">
+  <div style="padding:15px" v-for = "data in Object.keys(info.response)">
+    <a href=""  data-toggle="modal" :data-target="`#modal` + data" ><u>{{data}}</u></a>
+  </div>
 </div>
-  
 
-  
+<hr/>
+<form id="searchDate" @submit.prevent="processForm()"></form>
+<div class="input-group form-group col-5" style="padding: 0px" >
+    <input type="date" name="bday" max="3000-12-31" 
+           min="1000-01-01" class="form-control" v-model="date">
+           <div class="input-group-append ">
+              <button type="submit" class="btn btn-outline-primary" >search</button>
+            </div>
+   </div>
+  </form>
+   <hr/>
 
-  
 
-        </tbody>
-      </table>
-
+<!-- Modal -->
+<div class="modal fade" v-for = "data in Object.keys(info.response)" :id= "`modal`+ data " tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"> date :{{data}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-hover table-responsive-sm table-responsive-md ">
+          <thead >
+            <tr>
+              <th >employee </th>
+              <th >time in</th>
+              <th> time out</th>
+      
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for = "response in info.response[data]">
+              <td>{{ response.user.username }}</a></td>
+              <td > {{response.timeIn}} </td>
+              <td>{{ response.timeOut}}</td>
+      
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 </template>
         
@@ -43,9 +72,20 @@
             name: "thisMonth",
         data() {
             return {
-            info: null
+            info: null,
+            date: ''
             }
         },
+        methods: {
+            processForm: function() {
+              axios({
+                method: 'get',
+                url: 'http://127.0.0.1:8000/api/attendance-list-full/' + this.date ,
+            
+              })
+              window.location.reload()
+            }
+          },
 
         created() {
             this.fetchData()

@@ -3,8 +3,8 @@
  <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#"><router-link :to="{name: 'deductions'}">deductions</router-link></a></li>
-                <li class="breadcrumb-item active" aria-current="page">users</li>
+                <li class="breadcrumb-item"><a href="#"><router-link :to="{name: 'employeeList'}">employee</router-link></a></li>
+                <li class="breadcrumb-item active" aria-current="page">detail</li>
         </ol>
 </nav>
 {{info}}

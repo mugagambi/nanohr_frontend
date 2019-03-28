@@ -17,43 +17,30 @@
       <div class="row">
       <div class="collapse col-4 " id="collapseCheckIn">
         <div class="card card-body">
-            <table class="table table-hover table-responsive-sm table-responsive-md ">
-              <b>check in :</b>
-              </td>
-                <tbody>
-                  <tr v-for = "response in info2.response">
-                    <td><div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" :id="`CheckIn` + response.id">
-                            <label class="custom-control-label" :for="`CheckIn` + response.id"></label>
-                          </div></td>
-                    <td>{{ response.username }}</a></td>    
-            
-                  </tr>
-                </tbody>
-              </table>
-              <div class= "padding: 5px 5px">
-                  <button type="button" class="btn btn-outline-primary">check in</button>  
+          <form id="checkIn"  @submit.prevent="processForm()">
+            <div class="form-group">
+                <label for="exampleFormControlSelect1" class="rounded"><b>select user(s)</b></label>
+                <select multiple class=" form-control" id="exampleFormControlSelect1" v-model="employee" >
+                  <option v-for="response in info2.response" :value="response.id" >{{response.username}}</option>
+                </select>
               </div>
+              <hr/>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
       </div>
       <div class="collapse col-4 " id="collapseCheckOut">
         <div class="card card-body">
-                <table class="table table-hover table-responsive-sm table-responsive-md ">
-                        <b>check out :</b>
-                        <tbody>
-                          <tr v-for = "response in info2.response">
-                            <td><div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" :id="`CheckOut` + response.id">
-                                    <label class="custom-control-label" :for="`CheckOut` + response.id"></label>
-                                  </div></td>
-                            <td>{{ response.username }}</a></td>    
-                    
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div class= "padding: 5px 5px">
-                          <button type="button" class="btn btn-outline-primary">check out</button>  
-                      </div>
+          <form id="checkOut"  @submit.prevent="processForm2()">
+            <div class="form-group">
+                <label for="exampleFormControlSelect1" class="rounded"><b>select user(s)</b></label>
+                <select multiple class=" form-control" id="exampleFormControlSelect1" v-model="employee" >
+                  <option v-for="response in info2.response" :value="response.id" >{{response.username}}</option>
+                </select>
+              </div>
+              <hr/>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
       </div>
       </div>
@@ -87,7 +74,8 @@
         data() {
             return {
             info: null,
-            info2: null
+            info2: null,
+            employee: ''
             }
         },
 
@@ -116,6 +104,34 @@
                 console.log(err)
             })
   
+            },
+            processForm: function() {
+              for (var data in this.employee)
+                axios({
+                  method: 'post',
+                  url: 'http://127.0.0.1:8000/api/check-in/',
+                  data: {
+  
+                    user_id: this.employee[data]
+                    
+                    
+                  }
+                })
+                window.location.reload()
+            },
+            processForm2: function() {
+              for (var data in this.employee)
+                axios({
+                  method: 'patch',
+                  url: 'http://127.0.0.1:8000/api/check-out/',
+                  data: {
+  
+                    user_id: this.employee[data]
+                    
+                    
+                  }
+                })
+                window.location.reload()
             }
         }
         }

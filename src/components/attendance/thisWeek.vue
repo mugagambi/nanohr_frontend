@@ -9,10 +9,10 @@
 <ul class="nav nav-tabs" id="myTab" role="tablist">
 
         <li class="nav-item">
-          <a class="nav-link" id="monday-tab" data-toggle="tab" href="#monday" role="tab" aria-controls="monday" aria-selected="false">today</a>
+          <a class="nav-link active" id="monday-tab" data-toggle="tab" href="#monday" role="tab" aria-controls="monday" aria-selected="false">today</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="tuesday-tab" data-toggle="tab" href="#tuesday" role="tab" aria-controls="tuesday" aria-selected="false">yesterday</a>
+          <a class="nav-link " id="tuesday-tab" data-toggle="tab" href="#tuesday" role="tab" aria-controls="tuesday" aria-selected="false">yesterday</a>
         </li>
         <li class="nav-item">
          <a class="nav-link" id="wednesday-tab" data-toggle="tab" href="#wednesday" role="tab" aria-controls="wednesday" aria-selected="false"  v-for = "response in info.response['2'].slice(0,1)">

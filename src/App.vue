@@ -9,11 +9,11 @@
                   <a  class="nav-link active" href="#"><router-link :to="{ name : 'dashboard'}"><img class = "dash" src="@/assets/dashboard-2-64.png"></router-link></a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link active" href="#">?</a>
+                  <a class="nav-link active" href="#">help</a>
               </li>              
               <li class="nav-item dropdown">
                 <a class="nav-link active dropdown-toggle" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                  MAIN menu
+                  menu
                 </a>
               </li>
               <li class="nav-item dropdown">
@@ -71,7 +71,7 @@
         </div>
       </div>
 
-<router-view>
+<router-view >
 
 </router-view>
     
