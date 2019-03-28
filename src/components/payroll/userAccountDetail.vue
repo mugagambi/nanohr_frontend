@@ -4,9 +4,11 @@
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item"><a href="#"><router-link :to="{name: 'accounts'}">Accounts</router-link></a></li>
-              <li class="breadcrumb-item active" aria-current="page">detail</li>
+              <li class="breadcrumb-item active" aria-current="page" v-for=" account in info.account" >{{account.username.username}}</li>
             </ol>
           </nav>
+
+          
 <div class="accordion" id="accordionExample">
   <div class="card">
     <div class="card-header" id="headingOne">

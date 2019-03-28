@@ -6,6 +6,8 @@
                 <li class="breadcrumb-item"><a href="#"><router-link :to="{name: 'departmentList'}">departments</router-link></a></li>
                 <li class="breadcrumb-item active" aria-current="page" v-for ="data in context.context">{{data.departmentName}}</li>
         </ol>
+    </nav>
+
 <div style="padding:15px 5px">
     <p>
         <a class="btn btn-primary" data-toggle="collapse" href="#selectUsers" role="button" aria-expanded="false" aria-controls="selectUsers">
@@ -35,7 +37,7 @@
 
       </div>
 </div>
-</nav>
+
 <table class="table table-hover table-responsive-sm table-responsive-md ">
     <thead class="thead-dark">
       <tr>

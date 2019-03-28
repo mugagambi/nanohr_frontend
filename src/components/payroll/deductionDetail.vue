@@ -4,9 +4,43 @@
         <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item"><a href="#"><router-link :to="{name: 'deductions'}">deductions</router-link></a></li>
-                <li class="breadcrumb-item active" aria-current="page">users</li>
+                <li class="breadcrumb-item active" aria-current="page" v-for = "data in context.context" >{{data.deductionName}}</li>
         </ol>
 </nav>
+<div style="padding:15px 5px">
+    <p>
+        <a class="btn btn-outline-danger" data-toggle="collapse" href="#addDeduction" role="button" aria-expanded="false" aria-controls="addAccount">
+          + deduct from employee
+        </a>
+
+      </p>
+      <div class="row">
+      <div class="collapse col-6" id="addDeduction">
+        <div class="card card-body">
+            <form id="addDeductionForm"  @submit.prevent="processForm()">
+            <div class="form-group">
+                    <label for="selectUser" class="rounded"><b>select employee</b></label>
+                    <select class="form-control" id="selectUser" v-model="account_id" >
+                        <option v-for="response in info2.account" :value="response.id" >{{response.username.username}}</option>
+                    </select>
+            </div>
+              <div class="form-group">
+                  <label for="deductionAmount">amount</label>
+                  <input type="number" class="form-control" id="deductionAmount" placeholder="amount to deduct" v-model="amount">
+                </div> 
+                <div class="form-group">
+                  <label for="description">description</label>
+                  <input type="text" class="form-control" id="description" placeholder="Describe why you are deducting" v-model="description">
+                </div> 
+              <hr/>
+              <button type="submit" class="btn btn-danger">submit</button>
+            </form>
+        </div>
+      </div>
+
+      </div>
+</div>
+
 <table class="table table-hover table-responsive-sm table-responsive-md ">
     <thead class="thead-dark">
       <tr>
@@ -34,7 +68,12 @@
             name: "deductionDetail",
         data() {
             return {
-            info: null
+            context: null,
+            info: null,
+            info2: null,
+            account_id : '',
+            amount : '',
+            description : '',
             }
         },
 
@@ -55,8 +94,38 @@
             .catch((err) => {
                 console.log(err)
             })
+            axios.get('http://127.0.0.1:8000/api/internal-deduction-type/'+this.$route.params.id+'/')
+            .then(response => {
+              this.context = {"context": response.data }  
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            axios.get(`http://127.0.0.1:8000/api/accounts-list/`)
+            .then(response => {
+            this.info2 = {"account": response.data }
+            })
+            .catch(e => {
+            this.errors.push(e)
+            })
   
+            },
+            processForm: function() {
+              axios({
+                method: 'post',
+                url: 'http://127.0.0.1:8000/api/addInternalDeduction/',
+                data: {
+                  account_id: this.account_id,
+                  internalDeduction_id: this.$route.params.id,
+                  amount: this.amount,
+                  description: this.description
+                  
+                  
+                }
+              })
+              window.location.reload()
             }
+          
         }
         }
         </script>

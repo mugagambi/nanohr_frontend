@@ -55,7 +55,7 @@
                     </div>
                     <div class="col-sm">
                         <a href="#"><router-link :to="{name: 'landing'}"><img class = " icon-nav " src="@/assets/icons8-money-bag-48.png"></router-link></a>
-                        <a><router-link :to="{name: 'landing'}"> payment </router-link></a>
+                        <a><router-link :to="{name: 'landing'}"> payroll </router-link></a>
                     </div>
                     <div class="col-sm">
                         <a href="#"><img  class = " icon-nav " src="@/assets/icons8-collaboration-64.png"></a>
