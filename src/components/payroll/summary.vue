@@ -6,6 +6,29 @@
                       <li class="breadcrumb-item active" aria-current="page">payment status summary</li>
                     </ol>
                   </nav>
+                  <div style="padding:15px 5px">
+                      <p>
+                          <a class="btn btn-primary" data-toggle="collapse" href="#collapseDraft" role="button" aria-expanded="false" aria-controls="collapseCheckIn">
+                            draft account(s)
+                          </a>
+                        </p>
+                        <div class="row">
+                        <div class="collapse col-4 " id="collapseDraft">
+                          <div class="card card-body">
+                            <form id="checkIn"  @submit.prevent="processForm()">
+                              <div class="form-group">
+                                  <label for="exampleFormControlSelect1" class="rounded"><b>select user(s)</b></label>
+                                  <select multiple class=" form-control" id="exampleFormControlSelect1" v-model="account_id" >
+                                    <option v-for="response in info2.account" :value="response.id" >{{response.username.username}}</option>
+                                  </select>
+                                </div>
+                                <hr/>
+                                <button type="submit" class="btn btn-primary">draft</button>
+                              </form>
+                          </div>
+                        </div>
+                        </div>
+                  </div>
           <table class="table table-hover table-responsive">
             <thead class="thead-dark">
               <tr>
@@ -43,7 +66,9 @@
           name: 'summary',
           data () {
             return {
-              info: null
+              info: null,
+              info2: null,
+              account_id: null
             }
           },
           created() {
@@ -54,6 +79,24 @@
             .catch(e => {
               this.errors.push(e)
             })
+            axios.get(`http://127.0.0.1:8000/api/accounts-list/`)
+            .then(response => {
+            this.info2 = {"account": response.data }
+            })
+          },
+          methods: {
+          processForm: function() {
+            for (var data in this.account_id)
+                axios({
+                method: 'post',
+                url: 'http://127.0.0.1:8000/api/draft/',
+                data: {
+                  account_id: this.account_id[data] 
+                                    
+                }
+              })
+              window.location.reload()
+            }
           }
         }
         </script>
