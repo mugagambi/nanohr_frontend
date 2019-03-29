@@ -9,8 +9,8 @@
 </nav>
 <div style="padding:15px 5px">
     <p>
-        <a class="btn btn-outline-danger" data-toggle="collapse" href="#addDeduction" role="button" aria-expanded="false" aria-controls="addAccount">
-          + deduct from employee
+        <a class="btn btn-outline-danger" data-toggle="collapse" href="#addDeduction" role="button" aria-expanded="false" aria-controls="addAccount" v-for = "data in context.context" >
+            + deduct from employee for <b>{{data.deductionName}}</b>
         </a>
 
       </p>

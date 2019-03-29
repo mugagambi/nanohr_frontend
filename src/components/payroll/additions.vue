@@ -8,22 +8,22 @@
       </nav>
       <div style="padding:15px 5px">
           <p>
-              <a class="btn btn-primary" data-toggle="collapse" href="#addDeduction" role="button" aria-expanded="false" aria-controls="addAccount">
+              <a class="btn btn-primary" data-toggle="collapse" href="#addAllowance" role="button" aria-expanded="false" aria-controls="addAccount">
                 + add allowance type
               </a>
       
             </p>
             <div class="row">
-            <div class="collapse col-6" id="addDeduction">
+            <div class="collapse col-6" id="addAllowance">
               <div class="card card-body">
                   <form id="addDeductionForm"  @submit.prevent="processForm()">
                     <div class="form-group">
-                        <label for="deductionName">deduction name</label>
-                        <input type="text" class="form-control" id="bank" placeholder="name the deduction" v-model="deductionName">
+                        <label for="deductionName">allowance name</label>
+                        <input type="text" class="form-control" id="allowanceName" placeholder="name the allowance" v-model="allowanceName">
                       </div> 
                       <div class="form-group">
                         <label for="description">description</label>
-                        <input type="text" class="form-control" id="phoneNumber" placeholder="Describe the deduction briefly" v-model="deductionDescription">
+                        <input type="text" class="form-control" id="description" placeholder="Describe the allowance briefly" v-model="allowanceDescription">
                       </div> 
                     <hr/>
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -43,7 +43,7 @@
           <h6 class="card-subtitle mb-2 text-muted"></h6>
           <p class="card-text">{{addition.description}}</p><hr/>
           
-          <a href="#" class="card-link"><router-link :to="`/additionDetail/`+ addition.id">users</router-link></a>  
+          <a href="#" class="card-link"><router-link :to="`/additionDetail/`+ addition.id">view employees</router-link></a>  
         
         </div>
       </div>
@@ -61,9 +61,8 @@
               count : 0,
               info : null,
               info2 : null,
-              user : '',
-              amount : '',
-              description : '',
+              allowanceName: null,
+              allowanceDescription: null,
               
             }
           
@@ -71,18 +70,15 @@
           methods: {
             processForm: function(id) {
               axios({
-                method: 'post',
-                url: 'http://127.0.0.1:8000/api/addAllowance/',
-                data: {
-                  account_id: this.user,
-                  salaryAdditionType_id: id,
-                  amount: this.amount,
-                  description: this.description
-                  
-                  
-                }
-              })
-              window.location.reload()
+              method: 'post',
+              url: 'http://127.0.0.1:8000/api/salary-addition-types-list/',
+              data: {
+
+                additionTypeName:this.allowanceName,
+                description: this.allowanceDescription
+              }
+            })
+            window.location.reload()
             }
           },
           created() {
