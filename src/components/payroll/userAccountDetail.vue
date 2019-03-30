@@ -78,7 +78,7 @@
                     <tr v-for=" account in info3.account ">
                       <td>{{account.salaryAdditionType.additionTypeName}}</td>
                       <td>{{account.description}}</td>
-                      <td><b class="text-success"> + {{account.additionAmount}}</b></td>
+                      <td><b class="text-success"> + {{ numberWithCommas(account.additionAmount)}}</b></td>
                     </tr>
                   </tbody>
                 </table>
@@ -153,7 +153,7 @@
                       <tr v-for=" account in info2.account ">
                         <td>{{account.internalDeductionType.deductionName}}</td>
                         <td>{{account.description}}</td>
-                        <td><b class="text-danger"> - {{account.deductionAmount}}</b></td>
+                        <td><b class="text-danger"> - {{numberWithCommas(account.deductionAmount)}}</b></td>
                       </tr>
                     </tbody>
                   </table>
@@ -229,31 +229,31 @@
                   <tbody>
                       <tr v-for=" account in info4.account " v-if="account.commision == 0">
                           <td>basic pay</td>
-                          <td><b class=" text-success">{{account.basicpay}}</b></td>    
+                          <td><b class=" text-success">{{ numberWithCommas(account.basicpay)}}</b></td>    
                       </t>
                     <tr v-for=" account in info4.account " v-if="account.commision > 0">
                       <td>basic pay</td>
-                      <td><b class=" text-success">{{account.basicpay}}</b></td>    
+                      <td><b class=" text-success">{{ numberWithCommas(account.basicpay)}}</b></td>    
                     </tr>
                     <tr v-for=" account in info4.account "  v-if="account.commision > 0">
                         <td>commision</td>
-                        <td><b class=" text-success">{{account.commision}}</b></td>    
+                        <td><b class=" text-success">{{ account.commision}}</b></td>    
                     </tr>
                     <tr v-for=" account in info4.account " v-if="account.commision > 0">
                         <td> total sales worth</td>
-                        <td><b class=" ">{{account.salesTotalWorth}}</b></td>    
+                        <td><b class=" ">{{ numberWithCommas(account.salesTotalWorth)}}</b></td>    
                     </tr>
                     <tr v-for=" account in info4.account ">
                         <td>total allowances</td>
-                        <td><b class=" text-success"> + {{account.allowanceTotal}}</b></td>    
+                        <td><b class=" text-success"> + {{ numberWithCommas(account.allowanceTotal) }}</b></td>    
                     </tr>
                     <tr v-for=" account in info4.account ">
                         <td>total deductions</td>
-                        <td><b class=" text-danger"> - {{account.deductionTotal}}</b></td>    
+                        <td><b class=" text-danger"> - {{ numberWithCommas(account.deductionTotal)}}</b></td>    
                     </tr>
                     <tr v-for=" account in info4.account " class="bg-info">
                         <td><b>Net Pay</b></td>
-                        <td><b class="">{{account.totalPay}}</b></td>    
+                        <td><b class="">{{numberWithCommas(account.totalPay)}}</b></td>    
                     </tr>
                   </tbody>
                 </table>
@@ -300,6 +300,9 @@
         },
 
         methods: {
+            numberWithCommas: function(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
             fetchData() {
             axios.get('http://127.0.0.1:8000/api/user-account-detail/'+this.$route.params.id+'/')
             .then(response => {

@@ -13,7 +13,7 @@
             <strong>{{salarytype.name}} </strong>
           </div>
         <div class="card-body">
-         
+          <p class="card-text"><p><b> basic pay </b > : {{numberWithCommas(salarytype.basicPay) }}</p>
           <p class="card-text"><p><b> commision</b> : {{salarytype.commision.commisionPercentageRate }}%</p></p>
           <hr/>
           
@@ -47,6 +47,11 @@
               this.errors.push(e)
             })
           },
+          methods: {
+          numberWithCommas: function(x) {
+              return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          }
+          }
           
         }
         </script>

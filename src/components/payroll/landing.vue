@@ -13,8 +13,8 @@
                           <router-link :to="{name: 'summary'}"><a href="#" class="list-group-item list-group-item-action"><img src="@/assets/check-user-icon.png"> drafts this month</a></router-link>
                       </div>
                       <div style="padding:25px 0px " class="list-group">
-                        <router-link :to="{ name: 'wagetypes' }"><a href="#" class="list-group-item list-group-item-action "><img src="@/assets/Cash-icon.png"> wage types</a></router-link>
-                          <a href="#" class="list-group-item list-group-item-action"> internal loans</a>
+                        <router-link :to="{ name: 'wagetypes' }"><a href="#" class="list-group-item list-group-item-action "><img src="@/assets/Cash-icon.png"> wages </a></router-link>
+                        <router-link :to="{ name: 'deductions' }"><a href="#" class="list-group-item list-group-item-action "><img src="@/assets/Cash-icon.png"> internal loans </a></router-link>
                       </div>
                   </div>
                   <div class="col-12 col-sm-10 col-md-8 col-lg-8 " style="padding:25px 0px 0px 5px">

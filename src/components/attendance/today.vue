@@ -23,10 +23,57 @@
                 <select multiple class=" form-control" id="exampleFormControlSelect1" v-model="employee" >
                   <option v-for="response in info2.response" :value="response.id" >{{response.username}}</option>
                 </select>
+                <p v-if="Errors.length">
+                    <ul>
+                      <li v-for="error in Errors"><p class="text-danger">{{ error }}</p></li>
+                    </ul>
+                  </p>
               </div>
               <hr/>
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#check-in" @click="checkForm()">
+                submit
+              </button>
+             <!-- Modal -->
+             <div class="modal fade" id="check-in" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="addEmployeeModalLabel">check in </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-primary" role="alert"  v-if="! Errors.length ">
+                            CONFIRM !!<br/>
+                          <div v-for = "employee in employee">
+                           <div v-for= " data in info2.response">
+                             <p v-if=" data.id == employee"> 
+                                check in -- <b>{{data.username}} </b> 
+                              </p>
+                             </p>
+                           </div>
+                        </div>
+                        </div>
+                        <div class="alert alert-danger" role="alert"  v-if="Errors.length ">
+                            please correct the following
+                              <ul>
+                                  <li v-for="error in Errors"><p class="text-danger">{{ error }}</p></li>
+                              </ul>
+                          </div>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary" v-if="! Errors.length">check in </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </form>
+    
         </div>
       </div>
       <div class="collapse col-4 " id="collapseCheckOut">
@@ -74,6 +121,7 @@
         data() {
             return {
             info: null,
+            Errors: [],
             info2: null,
             employee: ''
             }
@@ -104,6 +152,18 @@
                 console.log(err)
             })
   
+            },
+            checkForm: function (e) {
+           
+              this.Errors = []
+              if (this.employee) {
+                return true;
+              }
+              if (!this.employee) {
+                this.Errors.push('employee required,add employee');
+              }
+         
+              e.preventDefault();
             },
             processForm: function() {
               for (var data in this.employee)

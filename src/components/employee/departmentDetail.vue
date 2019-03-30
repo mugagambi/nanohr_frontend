@@ -24,13 +24,70 @@
                 <select class="form-control" id="exampleFormControlSelect1" v-model="employee" >
                   <option v-for="response in info2.response" :value="response.id" >{{response.username}}</option>
                 </select>
+                <p v-if="employeeErrors.length">
+                    <ul>
+                      <li v-for="error in employeeErrors"><p class="text-danger">{{ error }}</p></li>
+                    </ul>
+                  </p>
               </div>
               <div class="form-group">
                   <label for="departmentName">designation</label>
-                  <input type="text" class="form-control" id="designation" placeholder="Enter designatio" v-model="designation">
+                  <input type="text" class="form-control" id="designation" placeholder="Enter designation" v-model="designation">
+                  <p v-if="Errors.length">
+                      <ul>
+                        <li v-for="error in Errors"><p class="text-danger">{{ error }}</p></li>
+                      </ul>
+                    </p>
                 </div> 
               <hr/>
-              <button type="submit" class="btn btn-primary">Submit</button>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDepartmentModal" @click="checkForm()">
+                    submit
+                  </button>
+  
+                <!-- Modal -->
+                <div class="modal fade" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="addEmployeeModalLabel">add employee to department</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert alert-primary" role="alert"  v-if="! Errors.length && ! employeeErrors.length">
+                                CONFIRM !!<br/>
+                               <div v-for= " data in info2.response">
+                                 <p v-if=" data.id == employee"> 
+                                    add -- <b>{{data.username}} </b> 
+                                  </p>
+                                 </p>
+                               </div>
+                               <div v-for ="data in context.context" >
+                                 to --
+                                  <b>{{data.departmentName}}</b> department 
+                                  as -- <b>{{designation}}</b>
+                               </div>
+                            </div>
+                            <div class="alert alert-danger" role="alert"  v-if="Errors.length || employeeErrors.length">
+                              please correct the following
+                                <ul>
+                                    <li v-for="error in Errors"><p class="text-danger">{{ error }}</p></li>
+                                </ul>
+                                <ul>
+                                    <li v-for="error in employeeErrors"><p class="text-danger">{{ error }}</p></li>
+                                </ul>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary" v-if="! Errors.length && ! employeeErrors.length">add epmloyee to department</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
             </form>
         </div>
       </div>
@@ -64,6 +121,8 @@
         data() {
             return {
             context: null,
+            employeeErrors: [],
+            Errors: [],
             info: null,
             info2: null,
             employee: '',
@@ -103,6 +162,23 @@
                 console.log(err)
             })
             
+            },
+            checkForm: function (e) {
+           
+              this.Errors = []
+              this.employeeErrors = []
+              if (this.designation && this.employee) {
+                return true;
+              }
+              if (!this.employee) {
+                this.employeeErrors.push('employee required,add employee');
+              }
+
+              if (!this.designation) {
+                this.Errors.push('designation  required');
+              }
+
+              e.preventDefault();
             },
             processForm: function(id) {
               axios({

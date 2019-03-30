@@ -5,7 +5,7 @@
         <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item"><a href="#"><router-link :to="{name: 'wagetypes'}">wage types</router-link></a></li>
-                <li class="breadcrumb-item active" aria-current="page">users</li>
+                <li class="breadcrumb-item active" aria-current="page">view employees</li>
         </ol>
 </nav>
 <table class="table table-hover table-responsive-sm table-responsive-md">

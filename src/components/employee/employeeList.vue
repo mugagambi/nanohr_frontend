@@ -23,12 +23,56 @@
                   </div>
 
                 <div class="form-group">
+                    <p v-if="usernameErrors.length">
+                        <ul>
+                          <li v-for="error in usernameErrors"><p class="text-danger">{{ error }}</p></li>
+                        </ul>
+                      </p>
                   <label for="Email">Email address</label>
                   <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Enter email" v-model="email">
-                  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                  <p v-if="emailErrors.length">
+                      <ul>
+                        <li v-for="error in emailErrors"><p class="text-danger">{{ error }}</p></li>
+                      </ul>
+                    </p>
                 </div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addEmployeeModal" @click="checkForm()">
+                  submit
+                </button>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <!-- Modal -->
+                <div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="addEmployeeModalLabel">add employee</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                          <div class="alert alert-primary" role="alert"  v-if="! usernameErrors.length && ! emailErrors.length">
+                              CONFIRM !!<br/>
+                              add employee with username -- <b>{{username}}</b> and email --<b>{{email}}</b>
+                          </div>
+                          <div class="alert alert-danger" role="alert"  v-if="usernameErrors.length || emailErrors.length">
+                            please correct the following
+                              <ul>
+                                  <li v-for="error in usernameErrors"><p class="text-danger">{{ error }}</p></li>
+                              </ul>
+                              <ul>
+                                  <li v-for="error in emailErrors"><p class="text-danger">{{ error }}</p></li>
+                              </ul>
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" v-if="! usernameErrors.length || ! emailErrors">add employee</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </form>
         </div>
       </div>
@@ -65,6 +109,8 @@
         data() {
             return {
             info: null,
+            usernameErrors:[],
+            emailErrors: [],
             username: '', 
             email: ''
             }
@@ -88,6 +134,27 @@
                 console.log(err)
             })
   
+            },
+            checkForm: function (e) {
+              this.usernameErrors = []
+              this.emailErrors = []
+              if (this.username && this.email) {
+                return true;
+              }
+
+              if (!this.username) {
+                this.usernameErrors.push('username required');
+                document.addEmployee.username.focus();
+              }
+              if (this.username.split(' ').length > 1){
+                this.usernameErrors.push(' username can only be one word')
+                document.addEmployee.username.focus();
+              }
+              if (!this.email) {
+                this.emailErrors.push('email required');
+                document.addEmployee.Email.focus();
+              }
+              e.preventDefault();
             },
             processForm: function() {
               axios({

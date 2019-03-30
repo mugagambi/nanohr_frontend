@@ -46,12 +46,12 @@
             <tbody>
               <tr v-for = "summary in info.summary">
                 <td><a href="#" ><router-link :to="`/userAccountDetail/` + summary.account.id + `/`">{{ summary.account.username.username }}</router-link></a></td>
-                <td>{{ summary.basicpay}}</td>
-                <td class="text-primary">{{ summary.salesTotalWorth}}</td>
+                <td>{{ numberWithCommas(summary.basicpay)}}</td>
+                <td class="text-primary">{{ numberWithCommas(summary.salesTotalWorth)}}</td>
                 <td>{{ summary.commision}} %</td>
                 <td class="text-success">+{{ summary.allowanceTotal}}</td>
-                <td class="text-danger"> -{{ summary.deductionTotal}}</td>
-                <td><b class="text-success">{{ summary.totalPay}}</b></td>
+                <td class="text-danger"> -{{ numberWithCommas(summary.deductionTotal)}}</td>
+                <td><b class="text-success">{{ numberWithCommas(summary.totalPay)}}</b></td>
                 <td><button type="button" class="btn btn-primary">edit</button></td>
                
               </tr>
@@ -85,6 +85,9 @@
             })
           },
           methods: {
+          numberWithCommas: function(x) {
+              return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          },
           processForm: function() {
             for (var data in this.account_id)
                 axios({

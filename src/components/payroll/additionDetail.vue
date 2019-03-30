@@ -26,11 +26,11 @@
             </div>
               <div class="form-group">
                   <label for="additionAmount">amount</label>
-                  <input type="number" class="form-control" id="deductionAmount" placeholder="amount to deduct" v-model="amount">
+                  <input type="number" class="form-control" id="deductionAmount" placeholder="allowance amount" v-model="amount">
                 </div> 
                 <div class="form-group">
                   <label for="description">description</label>
-                  <input type="text" class="form-control" id="description" placeholder="Describe why you are deducting" v-model="description">
+                  <input type="text" class="form-control" id="description" placeholder="briefly describe why" v-model="description">
                 </div> 
               <hr/>
               <button type="submit" class="btn btn-success">submit</button>
@@ -53,7 +53,7 @@
         <tbody>
           <tr v-for = "account in info.account">
             <td><a href="#" ><router-link :to="`/userAccountDetail/` + account.account.id + `/`">{{ account.account.username.username }}</router-link></a></td>
-            <td ><b class="text-success">+ {{account.additionAmount}}</b></td>
+            <td ><b class="text-success">+ {{ numberWithCommas(account.additionAmount)}}</b></td>
             <td>{{account.description}}</td>
     
           </tr>
@@ -86,6 +86,9 @@
         },
 
         methods: {
+            numberWithCommas: function(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
             fetchData() {
             axios.get('http://127.0.0.1:8000/api/salary-addition-accounts/'+this.$route.params.id+'/')
             .then(response => {

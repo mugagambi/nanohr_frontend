@@ -57,7 +57,7 @@
     <tbody>
       <tr v-for = "account in info.account">
         <td><a href="#" ><router-link :to="`/userAccountDetail/` + account.account.id + `/`">{{ account.account.username.username }}</router-link></a></td>
-        <td ><b class="text-danger">- {{account.deductionAmount}}</b></td>
+        <td ><b class="text-danger">- {{ numberWithCommas(account.deductionAmount)}}</b></td>
         <td>{{account.description}}</td>
 
       </tr>
@@ -91,6 +91,9 @@
         },
 
         methods: {
+            numberWithCommas: function(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
             fetchData() {
             axios.get('http://127.0.0.1:8000/api/internal-deduction-accounts/'+this.$route.params.id+'/')
             .then(response => {
