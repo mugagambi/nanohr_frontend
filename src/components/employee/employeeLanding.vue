@@ -1,5 +1,5 @@
 <template>
-    <div class = "employeeLanding">
+    <div  class = "employeeLanding">
             <div style="padding:10px 0px" class="container">
                     <!-- Stack the columns on mobile by making one full-width and the other half-width -->
                     <div class="row">
@@ -7,8 +7,8 @@
                           <div class="list-group">
                               
                               <a href="#" class="list-group-item list-group-item-action disabled bg-dark text-light" ><strong>menu</strong></a>
-                              <router-link :to="{ name: 'employeeList' }"><a href="#" class="list-group-item list-group-item-action "> all employees</a></router-link>
-                              <router-link :to="{ name: 'departmentList' }"><a href="#" class="list-group-item list-group-item-action"> departments</a></router-link>
+                              <router-link :to="{ name: 'employeeList' }"><a href="#" class="list-group-item list-group-item-action border-0"> all employees</a></router-link>
+                              <router-link :to="{ name: 'departmentList' }"><a href="#" class="list-group-item list-group-item-action border-0"> departments</a></router-link>
                            </div>
 
                       </div>

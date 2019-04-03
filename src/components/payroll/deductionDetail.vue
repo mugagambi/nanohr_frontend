@@ -22,22 +22,86 @@
                     <label for="selectUser" class="rounded"><b>select employee</b></label>
                     <select class="form-control" id="selectUser" v-model="account_id" >
                         <option v-for="response in info2.account" :value="response.id" >{{response.username.username}}</option>
+
                     </select>
+                    <p v-if="employeeErrors.length">
+                        <ul>
+                          <small><li v-for="error in employeeErrors"><p class="text-danger">{{ error }}</p></li></small>
+                        </ul>
+                      </p>
             </div>
               <div class="form-group">
                   <label for="deductionAmount"><b>amount</b></label>
                   <input type="number" class="form-control" id="deductionAmount" placeholder="amount to deduct" v-model="amount">
+                  <p v-if="amountErrors.length">
+                    <ul>
+                      <small><li v-for="error in amountErrors"><p class="text-danger">{{ error }}</p></li></small>
+                    </ul>
+                  </p>
                 </div> 
                 <div class="form-group">
                   <label for="repayment"><b>repayment period</b></label>
                   <input type="number" class="form-control" id="repayment" placeholder="repayment period" v-model="repayment">
+                  <p v-if="repaymentPeriodErrors.length">
+                    <ul>
+                      <small><li v-for="error in repaymentPeriodErrors"><p class="text-danger">{{ error }}</p></li></small>
+                    </ul>
+                  </p>
                 </div> 
                 <div class="form-group">
                   <label for="description"><b>description</b></label>
                   <input type="text" class="form-control" id="description" placeholder="Describe why you are deducting" v-model="description">
                 </div> 
               <hr/>
-              <button type="submit" class="btn btn-danger">submit</button>
+
+                              
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDeductionModal" @click="checkForm()">
+                    submit
+                  </button>
+  
+                <!-- Modal -->
+                <div class="modal fade" id="addDeductionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="addDeductionModalLabel">deduct from employee </h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="alert alert-primary" role="alert"  v-if="! employeeErrors.length && ! amountErrors.length && ! repaymentPeriodErrors.length">
+                            
+                            CONFIRM !!<br/>
+                            <div v-for= " data in info2.account">
+                                <div v-if = "data.id == account_id">                                
+                                            deduct from -- <b>{{data.username.username}}</b>
+                                </div>
+                            </div>
+                            the total amount of-- <b>{{amount}}</b> to be paid back in --<b>{{repayment}}</b> months
+                            with installments of -- {{amountThisMonth}} every month.
+                        </div>
+                        <div class="alert alert-danger" role="alert"  v-if="employeeErrors.length || amountErrors.length || repaymentPeriodErrors.length">
+                          please correct the following
+                            <ul>
+                                <li v-for="error in employeeErrors"><p class="text-danger">{{ error }}</p></li>
+                            </ul>
+                            <ul>
+                                <li v-for="error in amountErrors"><p class="text-danger">{{ error }}</p></li>
+                            </ul>
+                            <ul>
+                                <li v-for="error in repaymentPeriodErrors"><p class="text-danger">{{ error }}</p></li>
+                            </ul>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                          <button type="submit" class="btn btn-primary" v-if="! amountErrors.length && ! employeeErrors.length && ! repaymentPeriodErrors.length">deduct from this user</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
             </form>
         </div>
       </div>
@@ -75,10 +139,12 @@
             context: null,
             info: null,
             info2: null,
-            account_id : '',
-            amount : '',
-            repayment: '',
-            description : '',
+            account_id : null,
+            amount : null,
+            repayment: 1,
+            amountThisMonth: null,
+            description : 'none given',
+            employeeErrors: [],repaymentPeriodErrors: [],amountErrors: []
             }
         },
 
@@ -116,6 +182,7 @@
             .catch(e => {
             this.errors.push(e)
             })
+
   
             },
             range: function(start, end) {
@@ -141,17 +208,55 @@
                 d.setDate(Math.min(n, this.getDaysInMonth(d.getFullYear(), d.getMonth())));
                 return d;
             },
+            checkForm: function (e) {
+              this.amountErrors = []
+              this.repaymentPeriodErrors = []
+              this.employeeErrors = []
+
+              this.amountThisMonth = this.amount / this.repayment
+              this.amountThisMonth = this.amountThisMonth.toFixed(2)
+
+              if (this.amount && this.account_id && this.repayment) {
+                return true;
+              }
+              if (!this.account_id) {
+                this.employeeErrors.push('employee required, please enter');
+            
+              }
+
+              if (!this.amount) {
+                this.amountErrors.push('amount required, please enter');
+            
+              }
+              if (this.amount < 0) {
+                this.amountErrors.push('amount must be more than zero');
+            
+              }
+
+              if (this.repayment > 12 ) {
+                this.repaymentPeriodErrors.push('repayment must be within a year, you can change this in your settings');
+             
+              }
+              if (this.repayment < 1 ) {
+                this.repaymentPeriodErrors.push('repayment must be done in 1 or more months');
+             
+              }
+              e.preventDefault();
+            },
             processForm: function() {
+              console.log(this.amount)
+              console.log(this.description)
+              console.log(this.account_id)
               for (var data of this.range(0,this.repayment)){
                 var nextMonth = this.addMonths(new Date(), data);
                 var month = nextMonth.getMonth()
                 var year = nextMonth.getFullYear()
-                var amountThisMonth = this.amount / this.repayment
+                this.amountThisMonth = this.amount / this.repayment
 
                 let date = new Date(year,month,1)
                 let date_formatted = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
 
-                console.log(date_formatted)
+                
                   axios({
                     method: 'post',
                     url: 'http://127.0.0.1:8000/api/addInternalDeduction/',
@@ -159,14 +264,15 @@
                       account_id: this.account_id,
                       internalDeduction_id: this.$route.params.id,
                       date: date_formatted,
-                      amount: amountThisMonth,
+                      amount: this.amountThisMonth,
                       description: this.description
                       
                       
                     }
                   })
+                  window.location.reload()
               }
-              window.location.reload()
+              
               
             
             }

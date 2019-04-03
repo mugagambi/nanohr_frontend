@@ -15,7 +15,7 @@
 </div>
 
 <hr/>
-<form id="searchDate" @submit.prevent="processForm()"></form>
+<form id="searchDate" @submit.prevent="processForm()">
 <div class="input-group form-group col-5" style="padding: 0px" >
     <input type="date" name="bday" max="3000-12-31" 
            min="1000-01-01" class="form-control" v-model="date">
@@ -24,6 +24,29 @@
             </div>
    </div>
   </form>
+  <table class="table table-hover table-responsive-sm table-responsive-md " v-if = "info2 != 1">
+    <thead class="thead-dark">
+      <tr>
+        <th >employee </th>
+        <th >time in</th>
+        <th> time out</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for = "response in info2.response">
+        <td>{{ response.user.username }}</a></td>
+        <td > {{response.timeIn}} </td>
+        <td>{{ response.timeOut}}</td>
+
+      </tr>
+    </tbody>
+  </table>
+  <div v-if=" info2 == 1">
+      <div class="alert alert-warning" role="alert">
+          no attendance available for that date !
+        </div>
+  </div>
    <hr/>
 
 
@@ -73,19 +96,10 @@
         data() {
             return {
             info: null,
+            info2: null,
             date: ''
             }
         },
-        methods: {
-            processForm: function() {
-              axios({
-                method: 'get',
-                url: 'http://127.0.0.1:8000/api/attendance-list-full/' + this.date ,
-            
-              })
-              window.location.reload()
-            }
-          },
 
         created() {
             this.fetchData()
@@ -97,6 +111,8 @@
 
         methods: {
             fetchData() {
+
+
             axios.get('http://127.0.0.1:8000/api/attendance-list/month/')
             .then(response => {
               this.info = {"response": response.data }  
@@ -104,6 +120,28 @@
             .catch((err) => {
                 console.log(err)
             })
+            axios.get('http://127.0.0.1:8000/api/attendance-list-full/' + this.date + '/')
+            .then(response => {
+              this.info2 = {"response": response.data }  
+            })
+            .catch((err) => {
+              this.info2 = 1
+                console.log(err)
+            })
+  
+            },
+            processForm: function() {
+            axios.get('http://127.0.0.1:8000/api/attendance-list-full/' + this.date + '/')
+            .then(response => {
+              
+              this.info2 = {"response": response.data }  
+            })
+            .catch((err) => {
+                this.info2 = 1
+                console.log(err)
+            })
+            
+            this.fetchData()
   
             }
         }

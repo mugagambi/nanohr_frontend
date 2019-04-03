@@ -22,7 +22,7 @@
                           <input type="text" class="form-control" id="departmentName" placeholder="Enter department name" v-model="departmentName">
                           <p v-if="Errors.length">
                               <ul>
-                                <li v-for="error in Errors"><p class="text-danger">{{ error }}</p></li>
+                                <small><li v-for="error in Errors"><p class="text-danger">{{ error }}</p></li></small>
                               </ul>
                             </p>
                         </div>      

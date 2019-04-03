@@ -23,17 +23,68 @@
                     <select class="form-control" id="selectUser" v-model="account_id" >
                         <option v-for="response in info2.account" :value="response.id" >{{response.username.username}}</option>
                     </select>
+                    <p v-if="employeeErrors.length">
+                        <ul>
+                          <small><li v-for="error in employeeErrors"><p class="text-danger">{{ error }}</p></li></small>
+                        </ul>
+                      </p>
             </div>
               <div class="form-group">
                   <label for="additionAmount">amount</label>
                   <input type="number" class="form-control" id="deductionAmount" placeholder="allowance amount" v-model="amount">
+                  <p v-if="amountErrors.length">
+                    <ul>
+                      <small><li v-for="error in amountErrors"><p class="text-danger">{{ error }}</p></li></small>
+                    </ul>
+                  </p>
                 </div> 
                 <div class="form-group">
                   <label for="description">description</label>
                   <input type="text" class="form-control" id="description" placeholder="briefly describe why" v-model="description">
                 </div> 
               <hr/>
-              <button type="submit" class="btn btn-success">submit</button>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDeductionModal" @click="checkForm()">
+                submit
+                </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="addDeductionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addDeductionModalLabel">deduct from employee </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-primary" role="alert"  v-if="! employeeErrors.length && ! amountErrors.length ">
+                        CONFIRM !!<br/>
+                        <div v-for= " data in info2.account">
+                            <div v-if = "data.id == account_id">                                
+                                        add to -- <b>{{data.username.username}}</b>
+                            </div>
+                        </div>
+                        the total amount of-- <b>{{amount}}</b>  
+                    </div>
+                    <div class="alert alert-danger" role="alert"  v-if="employeeErrors.length || amountErrors.length ">
+                        please correct the following
+                        <ul>
+                            <li v-for="error in employeeErrors"><p class="text-danger">{{ error }}</p></li>
+                        </ul>
+                        <ul>
+                            <li v-for="error in amountErrors"><p class="text-danger">{{ error }}</p></li>
+                        </ul>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                        <button type="submit" class="btn btn-primary" v-if="! amountErrors.length && ! employeeErrors.length ">add allowance for this employee</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
             </form>
         </div>
       </div>
@@ -73,7 +124,8 @@
             info2: null,
             account_id : '',
             amount : '',
-            description : '',
+            description : 'none given',
+            employeeErrors: [],amountErrors: []
             }
         },
 
@@ -106,6 +158,29 @@
             .then(response => {
             this.info2 = {"account": response.data }
             })
+            },
+            checkForm: function (e) {
+              this.amountErrors = []
+              this.employeeErrors = []
+
+
+              if (this.amount && this.account_id ) {
+                return true;
+              }
+              if (!this.account_id) {
+                this.employeeErrors.push('employee required, please enter');
+            
+              }
+
+              if (!this.amount) {
+                this.amountErrors.push('amount required, please enter');
+            
+              }
+              if (this.amount < 0) {
+                this.amountErrors.push('amount must be more than zero');
+            
+              }
+              e.preventDefault();
             },
             processForm: function() {
                 axios({

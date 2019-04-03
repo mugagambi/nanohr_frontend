@@ -25,14 +25,14 @@
                 <div class="form-group">
                     <p v-if="usernameErrors.length">
                         <ul>
-                          <li v-for="error in usernameErrors"><p class="text-danger">{{ error }}</p></li>
+                          <small><li v-for="error in usernameErrors"><p class="text-danger">{{ error }}</p></li></small>
                         </ul>
                       </p>
                   <label for="Email">Email address</label>
                   <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Enter email" v-model="email">
                   <p v-if="emailErrors.length">
                       <ul>
-                        <li v-for="error in emailErrors"><p class="text-danger">{{ error }}</p></li>
+                        <small><li v-for="error in emailErrors"><p class="text-danger">{{ error }}</p></li></small>
                       </ul>
                     </p>
                 </div>
@@ -68,7 +68,7 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" v-if="! usernameErrors.length || ! emailErrors">add employee</button>
+                        <button type="submit" class="btn btn-primary" v-if="! usernameErrors.length && ! emailErrors.length ">add employee</button>
                       </div>
                     </div>
                   </div>

@@ -25,7 +25,7 @@
                 </select>
                 <p v-if="Errors.length">
                     <ul>
-                      <li v-for="error in Errors"><p class="text-danger">{{ error }}</p></li>
+                      <small><li v-for="error in Errors"><p class="text-danger">{{ error }}</p></li></small>
                     </ul>
                   </p>
               </div>
@@ -112,7 +112,7 @@
     </tbody>
   </table>
 </div>
-</template>
+</template>   
         
         <script>
         import axios from 'axios'

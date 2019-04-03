@@ -41,12 +41,12 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/dashboard',
       name: 'dashboard',
       component: dashboard,
     },
     {
-      path: '/landing',
+      path: '/',
       name: 'landing',
       component: landing,
       children: [

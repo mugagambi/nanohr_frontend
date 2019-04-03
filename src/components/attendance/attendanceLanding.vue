@@ -7,10 +7,10 @@
                       <div  style="padding:25px 50px " class="col-12 col-sm-10 col-md-8 col-lg-4 " >
                           <div class="list-group ">
                               
-                              <a href="#" class="list-group-item list-group-item-action disabled bg-dark text-light" ><strong>menu</strong></a>
-                              <router-link :to="{ name: 'today' }"><a href="#" class="list-group-item list-group-item-action "> today</a></router-link>
-                              <router-link :to="{ name: 'thisWeek' }"><a href="#" class="list-group-item list-group-item-action"> thisWeek</a></router-link>
-                              <router-link :to="{name: 'thisMonth'}"><a href="#" class="list-group-item list-group-item-action"> thisMonth</a></router-link>
+                              <a href="#" class="list-group-item list-group-item-action disabled bg-dark text-light border-0" ><strong>menu</strong></a>
+                              <router-link :to="{ name: 'today' }"><a href="#" class="list-group-item list-group-item-action border-0"> today</a></router-link>
+                              <router-link :to="{ name: 'thisWeek' }"><a href="#" class="list-group-item list-group-item-action border-0"> thisWeek</a></router-link>
+                              <router-link :to="{name: 'thisMonth'}"><a href="#" class="list-group-item list-group-item-action border-0"> thisMonth</a></router-link>
                           </div>
 
                       </div>

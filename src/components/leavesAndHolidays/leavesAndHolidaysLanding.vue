@@ -6,10 +6,10 @@
                       <div  style="padding:25px 50px " class="col-12 col-sm-10 col-md-8 col-lg-4" >
                           <div class="list-group">
                               
-                              <a href="#" class="list-group-item list-group-item-action disabled bg-dark text-light" ><strong>menu</strong></a>
-                              <router-link :to="{ name: 'applications' }"><a href="#" class="list-group-item list-group-item-action "> applications </a></router-link>
-                              <router-link :to="{ name: 'onService' }"><a href="#" class="list-group-item list-group-item-action"> approved </a></router-link>
-                              <router-link :to="{name: 'types'}"><a href="#" class="list-group-item list-group-item-action"> types</a></router-link>
+                              <a href="#" class="list-group-item list-group-item-action disabled bg-dark text-light border-0" ><strong>menu</strong></a>
+                              <router-link :to="{ name: 'applications' }"><a href="#" class="list-group-item list-group-item-action border-0"> applications </a></router-link>
+                              <router-link :to="{ name: 'onService' }"><a href="#" class="list-group-item list-group-item-action border-0"> approved </a></router-link>
+                              <router-link :to="{name: 'types'}"><a href="#" class="list-group-item list-group-item-action border-0"> types</a></router-link>
                           </div>
 
                       </div>

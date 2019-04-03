@@ -8,7 +8,7 @@
       </nav>
   <div class = "row " >
     <div style="padding:10px 20px" v-for="salarytype in info.salarytype" >
-    <div   class="card" style="width: 18rem;">
+    <div   class="card " style="width: 18rem;">
         <div class="card-header">
             <strong>{{salarytype.name}} </strong>
           </div>

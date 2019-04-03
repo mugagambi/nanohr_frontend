@@ -1,4 +1,5 @@
 @import '~bootstrap/scss/bootstrap';
+.form-control{border-width: 2px;}  
 tr:nth-child(even) {background-color: #f2f2f2;}
 .modal-header
  {
@@ -43,7 +44,10 @@ img:hover {
   }
 
 .card:hover{
-    box-shadow: 5px 5px 5px lightgray; 
+  
+}
+.card.border-0:hover{
+    transform: scale(1.0009);
 }
 tr:hover{
     transform: scale(1.01);

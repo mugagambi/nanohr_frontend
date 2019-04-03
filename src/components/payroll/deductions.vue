@@ -21,19 +21,67 @@
                   <div class="form-group">
                       <label for="deductionName">deduction name</label>
                       <input type="text" class="form-control" id="bank" placeholder="name the deduction" v-model="deductionName">
+                      <p v-if="deductionNameErrors.length">
+                        <ul>
+                          <small><li v-for="error in deductionNameErrors"><p class="text-danger">{{ error }}</p></li></small>
+                        </ul>
+                      </p>
                     </div> 
                     <div class="form-group">
                       <label for="description">description</label>
                       <input type="text" class="form-control" id="phoneNumber" placeholder="Describe the deduction briefly" v-model="deductionDescription">
+                      <p v-if="descriptionErrors.length">
+                        <ul>
+                          <small><li v-for="error in descriptionErrors"><p class="text-danger">{{ error }}</p></li></small>
+                        </ul>
+                      </p>
                     </div> 
                   <hr/>
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                
+                  <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDeductionModal" @click="checkForm()">
+                  submit
+                </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="addDeductionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="addDeductionModalLabel">add deduction</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="alert alert-primary" role="alert"  v-if="! deductionNameErrors.length && ! descriptionErrors.length">
+                          CONFIRM !!<br/>
+                          add deduction type  -- <b>{{deductionName}}</b> decribed as --<b>{{deductionDescription}}</b>
+                      </div>
+                      <div class="alert alert-danger" role="alert"  v-if="deductionNameErrors.length || descriptionErrors.length">
+                        please correct the following
+                          <ul>
+                              <li v-for="error in deductionNameErrors"><p class="text-danger">{{ error }}</p></li>
+                          </ul>
+                          <ul>
+                              <li v-for="error in descriptionErrors"><p class="text-danger">{{ error }}</p></li>
+                          </ul>
+                      </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                        <button type="submit" class="btn btn-primary" v-if="! deductionNameErrors.length && ! descriptionErrors.length">add deduction type</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 </form>
             </div>
           </div>
     
           </div>
     </div>
+  <hr/>
   <div class = "row " >
     <div style="padding:10px 20px" v-for="deduction in info.deduction" >
       <div   class="card" style="width: 18rem;">
@@ -63,7 +111,8 @@
             return {
               info : null,
               deductionName: null,
-              deductionDescription: null
+              deductionDescription: null,
+              deductionNameErrors: [],descriptionErrors: []
               
             }
           },
@@ -80,6 +129,24 @@
             })
           },
           methods: {
+          checkForm: function (e) {
+              this.deductionNameErrors = []
+              this.descriptionErrors = []
+              if (this.deductionName && this.deductionDescription) {
+                return true;
+              }
+
+              if (!this.deductionName) {
+                this.deductionNameErrors.push('deduction name required');
+            
+              }
+
+              if (!this.deductionDescription) {
+                this.descriptionErrors.push('description required');
+             
+              }
+              e.preventDefault();
+            },
           processForm: function() {
             
             axios({

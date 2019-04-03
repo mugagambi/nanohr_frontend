@@ -20,13 +20,59 @@
                     <div class="form-group">
                         <label for="deductionName">allowance name</label>
                         <input type="text" class="form-control" id="allowanceName" placeholder="name the allowance" v-model="allowanceName">
+                        <p v-if="allowanceNameErrors.length">
+                          <ul>
+                            <small><li v-for="error in allowanceNameErrors"><p class="text-danger">{{ error }}</p></li></small>
+                          </ul>
+                        </p>
                       </div> 
                       <div class="form-group">
                         <label for="description">description</label>
                         <input type="text" class="form-control" id="description" placeholder="Describe the allowance briefly" v-model="allowanceDescription">
+                        <p v-if="allowanceDescriptionErrors.length">
+                          <ul>
+                            <small><li v-for="error in allowanceDescriptionErrors"><p class="text-danger">{{ error }}</p></li></small>
+                          </ul>
+                        </p>
                       </div> 
                     <hr/>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                                      <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAllowanceModal" @click="checkForm()">
+                  submit
+                </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="addAllowanceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="addDeductionModalLabel">add allowance type</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="alert alert-primary" role="alert"  v-if="! allowanceNameErrors.length && ! allowanceDescriptionErrors.length">
+                          CONFIRM !!<br/>
+                          add allowance  -- <b>{{allowanceName}}</b> decribed as --<b>{{allowanceDescription}}</b>
+                      </div>
+                      <div class="alert alert-danger" role="alert"  v-if="allowanceNameErrors.length || allowanceDescriptionErrors.length">
+                        please correct the following
+                          <ul>
+                              <li v-for="error in allowanceNameErrors"><p class="text-danger">{{ error }}</p></li>
+                          </ul>
+                          <ul>
+                              <li v-for="error in allowanceDescriptionErrors"><p class="text-danger">{{ error }}</p></li>
+                          </ul>
+                      </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                        <button type="submit" class="btn btn-primary" v-if="! allowanceNameErrors.length && ! allowanceDescriptionErrors.length">add allowance type</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                   </form>
               </div>
             </div>
@@ -63,11 +109,31 @@
               info2 : null,
               allowanceName: null,
               allowanceDescription: null,
+              allowanceNameErrors: [],allowanceDescriptionErrors: []
               
             }
           
           },
           methods: {
+            checkForm: function (e) {
+              this.allowanceNameErrors = []
+              this.allowanceDescriptionErrors = []
+
+              if (this.allowanceName && this.allowanceDescription) {
+                return true;
+              }
+
+              if (!this.allowanceName) {
+                this.allowanceNameErrors.push('allowance name required');
+            
+              }
+
+              if (!this.allowanceDescription) {
+                this.allowanceDescriptionErrors.push('description required');
+             
+              }
+              e.preventDefault();
+            },
             processForm: function(id) {
               axios({
               method: 'post',
